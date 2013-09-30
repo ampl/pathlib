@@ -1,0 +1,74 @@
+
+I. Contents and Installation
+
+This archive contains the following directories:
+    LICENSE  - license information
+    doc      - documentation
+    include  - include files needed to use the PATH library
+    lib      - library files
+    examples - example interfaces to PATH
+
+The doc director contains two documents.  The general documentation is found
+in user.ps, which is an updated version of the Ph.D. thesis by T. Munson.
+Chapter 3 provides a description of the PATH library calls and Chapter 6
+documents the PATH algorithm and options.  Documentation for the GAMS interface
+to PATH is found in gams_user.ps
+
+The lib directory has subdirectories containing libraries for Linux,
+Solaris, and Windows.  To complete the installation of the libraries 
+for Linux and Solaris, you must augment the LD_LIBRARY_PATH environment
+variable with the absolute path to the library directory (lib/linux/dynamic 
+or lib/solaris/dynamic).  Otherwise, when you try to run any executables, the 
+shared objects will not be found.  For Windows, you to augment your path with 
+the absolute location of libraries (lib\windows\dynamic).  Otherwise, the DLL 
+will not be found when you try to run an application.
+
+The examples directory contains the Matlab, LCP, QP, and Standalone interfaces
+to PATH.  These are documented in Chapter 2 of the doc/user.ps.  You should
+be able to compile them with the makefiles provided.
+
+II. Limitations
+
+This version of the PATH library includes an evaluation license that
+allows you to solve any problems until March 1, 2002.  Please see the
+LICENSE file for information on setting the evaluation license.
+After that date, the license reverts to a demonstration license that 
+is restricted to solving problems with at most 200 variables and 
+10000 nonzeros.  Please contact either Michael Ferris (ferris@cs.wisc.edu) 
+or Todd Munson (tmunson@mcs.anl.gov) for information on obtaining an 
+unrestricted license.
+
+The Solaris libraries were compiled using the SUN compiler.  There might
+be incompatibilities if you attempt to link your code with the GNU compiler
+and these libraries.  If you experience difficulties, contact one of the
+authors to obtain Solaris libraries compiled with the GNU compiler.
+
+The Windows libraries were compiled with Microsoft Visual C and Digital 
+Fortran.  If you experience problems with these libraries and your compiler,
+contact one of the authors.
+
+III. References
+
+Papers related to PATH that should be referenced include:
+
+S. P. Dirkse, "Robust Solution of Mixed Complementarity Problems",
+	Ph.D. thesis, Computer Sciences Dept., Univ. of Wisconsin,
+	Madison, 1994.  Available from
+	ftp://ftp.cs.wisc.edu/math-prog/tech-reports/.
+
+S. P. Dirkse and M. C. Ferris, "The PATH Solver: A Non-Monotone 
+        Stabilization Scheme for Mixed Complementarity Problems", 
+        Optimization Methods and Software 5 (1995), pp. 123-156.
+
+M. C. Ferris and T. S. Munson, "Interfaces to PATH 3.0: Design,
+	Implementation and Usage", Computational Optimization and
+        Applications 12 (1999), pp. 207-227.
+
+T. S. Munson, "Algorithms and Environments for Complementarity",
+	Ph.D. thesis, Computer Sciences Dept., Univ. of Wisconsin,
+	Madison, 2000.  Available from
+	ftp://ftp.cs.wisc.edu/math-prog/tech-reports/.
+
+Pointers to other relevant papers appear in
+	http://www.cs.wisc.edu/~ferris/papers.html
+

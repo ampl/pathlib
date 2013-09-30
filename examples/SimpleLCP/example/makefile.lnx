@@ -1,0 +1,11 @@
+
+PATHDIR = ../../..
+PATHINC = $(PATHDIR)/include
+PATHLIB = $(PATHDIR)/lib/linux/dynamic
+
+CC    = gcc
+CFLAGS = -I. -I.. -I$(PATHINC) -O3
+
+all: 
+	$(CC) $(CFLAGS) -o main main.c ../SimpleLCP_Path.o -L$(PATHLIB) -lpath46 -lm
+

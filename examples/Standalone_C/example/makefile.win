@@ -1,0 +1,11 @@
+
+PATHDIR = ..\..\..
+PATHINC = $(PATHDIR)\include
+PATHLIB = $(PATHDIR)\lib\windows\dynamic
+
+CC    = cl
+CFLAGS = -I. -I.. -I$(PATHINC) -O2
+
+all: 
+	$(CC) $(CFLAGS) -nologo -o obstacle obstacle.c ..\Standalone_Path.obj $(PATHLIB)\path46.lib
+
