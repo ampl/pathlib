@@ -33,6 +33,10 @@
 #include "Types.h"
 #include "MCP_Interface.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*****************************************************************************/
 /* Version information.                                                      */
 /*****************************************************************************/
@@ -103,4 +107,8 @@ FUN_DECL(Void) Path_SetProblemClass(MCP *m, MCP_Type i);
 
 FUN_DECL(MCP_Termination) Path_Solve(MCP *m, Information *info);
 
+#ifdef __cplusplus
+}
 #endif
+
+#endif  /* #ifndef PATH_H */

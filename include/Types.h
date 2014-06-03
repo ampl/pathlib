@@ -1,3 +1,4 @@
+
 /*****************************************************************************/
 /* Types.h                                                                   */
 /*                                                                           */
@@ -23,23 +24,21 @@
 #define Float    float
 #define Double   double
 
-typedef enum 
-{
-  False = 0,
-  True = 1
-} Boolean;
+#define Boolean  int
+#define False    0
+#define True     1
 
 /*****************************************************************************/
 /* Basis_Type - valid types when for the basis functions.                    */
 /*****************************************************************************/
 
 typedef Int Basis_Type;
-#define Basis_Unknown    0	/* Basis type not known                      */
+#define Basis_Unknown    0      /* Basis type not known                      */
 #define Basis_Basic      1      /* Strictly between bounds, variable basic   */
-#define Basis_SuperBasic 2	/* Strictly between bounds, variable nonbasic*/
-#define Basis_LowerBound 3	/* At lower bound, slack is basic            */
-#define Basis_UpperBound 4	/* At upper bound, slack is basic            */
-#define Basis_Fixed	 5	/* Variable was fixed and removed            */
+#define Basis_SuperBasic 2      /* Strictly between bounds, variable nonbasic*/
+#define Basis_LowerBound 3      /* At lower bound, slack is basic            */
+#define Basis_UpperBound 4      /* At upper bound, slack is basic            */
+#define Basis_Fixed      5      /* Variable was fixed and removed            */
 
 /*****************************************************************************/
 /* MCP_Type - valid types for the MCP_SetProblemClass( ) function.           */
@@ -71,10 +70,11 @@ typedef enum
   MCP_UserInterrupt,         /* Control-C, typically                         */
   MCP_BoundError,            /* Problem has a bound error                    */
   MCP_DomainError,           /* Could not find starting point                */
-  MCP_Infeasible,	     /* Problem has no solution                      */
+  MCP_Infeasible,            /* Problem has no solution                      */
   MCP_Error,                 /* An error occurred within the code            */
-  MCP_LicenseError,	     /* License could not be found                   */
-  MCP_OK
+  MCP_Reduced,               /* Presolve reduced problem                     */
+  MCP_LicenseError,          /* License could not be found                   */
+  MCP_OK                     /* Presolve did not perform any modifications   */
 } MCP_Termination;
 
 /*****************************************************************************/
@@ -84,7 +84,7 @@ typedef enum
 typedef enum
 {
   CNS_CNS,                  /* The problem is a general nonlinear cns        */
-  CNS_LCNS		    /* The problem is a linear cns                   */
+  CNS_LCNS                  /* The problem is a linear cns                   */
 } CNS_Type;
 
 /*****************************************************************************/
@@ -101,9 +101,10 @@ typedef enum
   CNS_UserInterrupt,         /* Control-C, typically                         */
   CNS_BoundError,            /* Problem has a bound error                    */
   CNS_DomainError,           /* Could not find starting point                */
-  CNS_Infeasible,	     /* Problem has no solution                      */
+  CNS_Infeasible,            /* Problem has no solution                      */
   CNS_Error,                 /* An error occurred within the code            */
-  CNS_LicenseError,	     /* License could not be found                   */
+  CNS_Reduced,               /* Presolve reduced problem                     */
+  CNS_LicenseError,          /* License could not be found                   */
   CNS_OK
 } CNS_Termination;
 
@@ -113,9 +114,9 @@ typedef enum
 
 typedef enum
 {
-  LCP_LCP,		     /* The problem is a linear mcp                  */
-  LCP_QP,		     /* The problem is KKT conditions for qp         */
-  LCP_LP 		     /* The problem is KKT conditions for lp         */
+  LCP_LCP,                   /* The problem is a linear mcp                  */
+  LCP_QP,                    /* The problem is KKT conditions for qp         */
+  LCP_LP                     /* The problem is KKT conditions for lp         */
 } LCP_Type;
 
 /*****************************************************************************/
@@ -124,15 +125,16 @@ typedef enum
 
 typedef enum
 {
-  LCP_Solved = 1,	     /* The problem was solved                       */
-  LCP_Distance,		     /* Distance limit has been reached              */
-  LCP_RayTerm,		     /* A ray termination occurred                   */
-  LCP_Singular,		     /* A singular basis was encountered             */
-  LCP_Cycle,		     /* A cycle was detected                         */
-  LCP_Reset,		     /* A reset was required, but not performed      */
+  LCP_Solved = 1,            /* The problem was solved                       */
+  LCP_Distance,              /* Distance limit has been reached              */
+  LCP_RayTerm,               /* A ray termination occurred                   */
+  LCP_Singular,              /* A singular basis was encountered             */
+  LCP_Cycle,                 /* A cycle was detected                         */
+  LCP_Reset,                 /* A reset was required, but not performed      */
   LCP_IterationLimit,        /* The iteration limit was reached              */
   LCP_Infeasible,            /* Problem has no solution                      */
-  LCP_Error,		     /* An error occurred within the code            */
+  LCP_Error,                 /* An error occurred within the code            */
+  LCP_Reduced,               /* Presolve reduced problem                     */
   LCP_OK
 } LCP_Termination;
 
@@ -165,27 +167,28 @@ typedef enum
 
 typedef struct
 {
-  Double residual;	     /* Value of residual at final point             */
-  Double distance;	     /* Distance between initial and final point     */
-  Double steplength;	     /* Steplength taken                             */
-  Double total_time;	     /* Amount of time spent in the code             */
+  Double residual;           /* Value of residual at final point             */
+  Double distance;           /* Distance between initial and final point     */
+  Double steplength;         /* Steplength taken                             */
+  Double total_time;         /* Amount of time spent in the code             */
+  Double basis_time;         /* Amount of time spent factoring               */
 
   Double maximum_distance;   /* Maximum distance from init point allowed     */
 
-  Int major_iterations;	     /* Major iterations taken                       */
-  Int minor_iterations;	     /* Minor iterations taken                       */
-  Int crash_iterations;	     /* Crash iterations taken                       */
+  Int major_iterations;      /* Major iterations taken                       */
+  Int minor_iterations;      /* Minor iterations taken                       */
+  Int crash_iterations;      /* Crash iterations taken                       */
   Int function_evaluations;  /* Function evaluations performed               */
   Int jacobian_evaluations;  /* Jacobian evaluations performed               */
-  Int gradient_steps;	     /* Gradient steps taken                         */
-  Int restarts;		     /* Restarts used                                */
-     
+  Int gradient_steps;        /* Gradient steps taken                         */
+  Int restarts;              /* Restarts used                                */
+
   Int generate_output;       /* Mask where output can be displayed.          */
   Int generated_output;      /* Mask where output displayed.                 */
 
-  Boolean forward;	     /* Move forward?                                */
-  Boolean backtrace;	     /* Back track?                                  */
-  Boolean gradient;	     /* Take gradient step?                          */
+  Boolean forward;           /* Move forward?                                */
+  Boolean backtrace;         /* Back track?                                  */
+  Boolean gradient;          /* Take gradient step?                          */
 
   Boolean use_start;         /* Use the starting point provided?             */
   Boolean use_basics;        /* Use the basis provided?                      */
@@ -203,4 +206,3 @@ typedef struct
 #define Output_Listing (1 << 2)
 
 #endif
-

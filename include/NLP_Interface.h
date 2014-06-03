@@ -18,6 +18,10 @@
 
 #include "Types.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*****************************************************************************/
 /* NLP_Interface declaration.                                                */
 /*****************************************************************************/
@@ -45,13 +49,13 @@ typedef struct
   Void *nlp_data;
 
   Int (CB_FPTR function_evaluation)(Void *id, Int n, Double *x, Double *f);
-  Int (CB_FPTR gradient_evaluation)(Void *id, Int n, Double *x, 
-				    Int wantf, Double *f, Double *g);
-  Int (CB_FPTR hessian_evaluation)(Void *id, Int n, Double *x, 
-				   Int wantf, Double *f, 
-				   Int wantg, Double *g,
-				   Int *nnz, Int *col, Int *len, 
-				   Int *row, Double *data);
+  Int (CB_FPTR gradient_evaluation)(Void *id, Int n, Double *x,
+                                    Int wantf, Double *f, Double *g);
+  Int (CB_FPTR hessian_evaluation)(Void *id, Int n, Double *x,
+                                   Int wantf, Double *f,
+                                   Int wantg, Double *g,
+                                   Int *nnz, Int *col, Int *len,
+                                   Int *row, Double *data);
 
   /***************************************************************************/
   /* The following functions are not required.  If they are not provided,    */
@@ -63,5 +67,8 @@ typedef struct
   Void (CB_FPTR finish)(Void *id, Double *x);
 } NLP_Interface;
 
+#ifdef __cplusplus
+}
 #endif
 
+#endif  /* #ifndef NLP_INTERFACE_H */

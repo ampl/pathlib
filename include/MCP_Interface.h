@@ -26,6 +26,10 @@
 struct _MCP;
 typedef struct _MCP MCP;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*****************************************************************************/
 /* Allocation and deallocation functions.                                    */
 /*****************************************************************************/
@@ -72,7 +76,7 @@ FUN_DECL(Double *) MCP_GetU(MCP *m);
 FUN_DECL(Int *)    MCP_GetB(MCP *m);
 
 FUN_DECL(Double *) MCP_GetF(MCP *m);
-FUN_DECL(Void)     MCP_GetJ(MCP *m, Int *nz, Int **col, Int **len, 
+FUN_DECL(Void)     MCP_GetJ(MCP *m, Int *nz, Int **col, Int **len,
                             Int **row, Double **data);
 
 /*****************************************************************************/
@@ -122,14 +126,26 @@ typedef struct
   Void *interface_data;
 
   Void (CB_FPTR problem_size)(Void *id, Int *size, Int *nnz);
-  Void (CB_FPTR bounds)(Void *id, Int size, 
+  Void (CB_FPTR bounds)(Void *id, Int size,
 			Double *x, Double *l, Double *u);
 
   Int (CB_FPTR function_evaluation)(Void *id, Int n, Double *x, Double *f);
-  Int (CB_FPTR jacobian_evaluation)(Void *id, Int n, Double *x, 
-				    Int wantf, Double *f, 
-				    Int *nnz, Int *col, Int *len, 
+  Int (CB_FPTR jacobian_evaluation)(Void *id, Int n, Double *x,
+				    Int wantf, Double *f,
+				    Int *nnz, Int *col, Int *len,
 				    Int *row, Double *data);
+
+  /***************************************************************************/
+  /* Hessian evaluation takes the values for the variables and lagrange      */
+  /* multipliers as arguments.  The values for the variables are guaranteed  */
+  /* to be the same as those from the last call to the function or Jacobian  */
+  /* evaluation.  We want the full matrix (not just the upper triangular     */
+  /* part).  This function should compute:                                   */
+  /*      H = sum_i lambda[i] * nabla^2 F_i(x)                               */
+  /***************************************************************************/
+  Int (CB_FPTR hessian_evaluation)(Void *id, Int n, Double *x, Double *l,
+				   Int *nnz, Int *col, Int *len,
+				   Int *row, Double *data);
 
   /***************************************************************************/
   /* The following functions are not required.  If they are not provided,    */
@@ -139,9 +155,9 @@ typedef struct
 
   Void (CB_FPTR start)(Void *id);
   Void (CB_FPTR finish)(Void *id, Double *x);
-  Void (CB_FPTR variable_name)(Void *id, Int variable, 
+  Void (CB_FPTR variable_name)(Void *id, Int variable,
 			       Char *buffer, Int buf_size);
-  Void (CB_FPTR constraint_name)(Void *id, Int constr, 
+  Void (CB_FPTR constraint_name)(Void *id, Int constr,
 				 Char *buffer, Int buf_size);
   Void (CB_FPTR basis)(Void *id, Int size, Int *basX);
 } MCP_Interface;
@@ -224,5 +240,13 @@ FUN_DECL(Void) MCP_Jacobian_Data_Contiguous(MCP *m, Boolean b);
 FUN_DECL(Void) MCP_Jacobian_Diagonal(MCP *m, Boolean b);
 FUN_DECL(Void) MCP_Jacobian_Diagonal_First(MCP *m, Boolean b);
 
+FUN_DECL(Void) MCP_Hessian_Structure_Constant(MCP *m, Boolean b);
+FUN_DECL(Void) MCP_Hessian_Data_Contiguous(MCP *m, Boolean b);
+FUN_DECL(Void) MCP_Hessian_Diagonal(MCP *m, Boolean b);
+FUN_DECL(Void) MCP_Hessian_Diagonal_First(MCP *m, Boolean b);
+
+#ifdef __cplusplus
+}
 #endif
 
+#endif  /* #ifndef MCP_INTERFACE_H */

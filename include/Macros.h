@@ -19,9 +19,11 @@
 #endif
 
 #if !defined(MID)
-#  define MID(a,b,c)  (((a) < (b)) ?                   \
-                       (((b) < (c)) ? (b) : (c)) :     \
-	  	       (((a) < (c)) ? (a) : (c)))
+#  define MID(a,b,c)  (((a) < (b)) ?                    \
+                       (((b) < (c)) ? (b) :             \
+			(((a) < (c)) ? (c) : (a))) :    \
+	    	       (((c) < (b)) ? (b) :             \
+			(((a) < (c)) ? (a) : (c))))
 #endif
 
 #if !defined(ABS)

@@ -20,6 +20,10 @@
 
 #include "Types.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct _Options_Interface;
 typedef struct _Options_Interface Options_Interface;
 
@@ -53,7 +57,7 @@ FUN_DECL(void) Options_Add(Options_Interface *i, Option_Set *opt);
 
 FUN_DECL(void) Options_Default(const Options_Interface *i);
 FUN_DECL(void) Options_Display(const Options_Interface *i);
-FUN_DECL(void) Options_Read(const Options_Interface *i, const char *filename); 
+FUN_DECL(int ) Options_Read(const Options_Interface *i, const char *filename);
 
 /*****************************************************************************/
 /* Setting options.                                                          */
@@ -85,15 +89,15 @@ FUN_DECL(void) Options_Read(const Options_Interface *i, const char *filename);
 /*                                                                           */
 /*****************************************************************************/
 
-FUN_DECL(void) Options_Set(const Options_Interface *i, const char *option);
-FUN_DECL(void) Options_SetBoolean(const Options_Interface *i, 
-				  const char *option, const Boolean value);
-FUN_DECL(void) Options_SetInt(const Options_Interface *i, 
-			      const char *option, const int value);
-FUN_DECL(void) Options_SetDouble(const Options_Interface *i, 
-				 const char *option, const double value);
-FUN_DECL(void) Options_SetOther(const Options_Interface *i, 
-			        const char *option, const int value);
+FUN_DECL(int) Options_Set(const Options_Interface *i, const char *option);
+FUN_DECL(int) Options_SetBoolean(const Options_Interface *i,
+				 const char *option, const Boolean value);
+FUN_DECL(int) Options_SetInt(const Options_Interface *i,
+			     const char *option, const int value);
+FUN_DECL(int) Options_SetDouble(const Options_Interface *i,
+				const char *option, const double value);
+FUN_DECL(int) Options_SetOther(const Options_Interface *i,
+			       const char *option, const int value);
 
 /*****************************************************************************/
 /* Obtaining options.                                                        */
@@ -115,13 +119,17 @@ FUN_DECL(void) Options_SetOther(const Options_Interface *i,
 /*                                                                           */
 /*****************************************************************************/
 
-FUN_DECL(Boolean) Options_GetBoolean(const Options_Interface *i, 
+FUN_DECL(Boolean) Options_GetBoolean(const Options_Interface *i,
 				     const char *option);
-FUN_DECL(int)     Options_GetInt(const Options_Interface *i, 
+FUN_DECL(int)     Options_GetInt(const Options_Interface *i,
 				 const char *option);
-FUN_DECL(double)  Options_GetDouble(const Options_Interface *i, 
+FUN_DECL(double)  Options_GetDouble(const Options_Interface *i,
 				    const char *option);
-FUN_DECL(int)     Options_GetOther(const Options_Interface *i, 
+FUN_DECL(int)     Options_GetOther(const Options_Interface *i,
 				   const char *option);
 
+#ifdef __cplusplus
+}
 #endif
+
+#endif  /* #ifndef OPTIONS_H */

@@ -15,6 +15,10 @@
 #include <stdio.h>
 #include "Types.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*****************************************************************************/
 /* Output_Interface declaration.                                             */
 /*****************************************************************************/
@@ -45,7 +49,7 @@
 typedef struct
 {
   Void *output_data;
-     
+
   Void (CB_FPTR print)(Void *data, Int mode, Char *msg);
   Void (CB_FPTR flush)(Void *data, Int mode);
 } Output_Interface;
@@ -90,5 +94,8 @@ FUN_DECL(Void) Output_SetLog(FILE *f);
 FUN_DECL(Void) Output_SetStatus(FILE *f);
 FUN_DECL(Void) Output_SetListing(FILE *f);
 
+#ifdef __cplusplus
+}
 #endif
 
+#endif /* #ifndef OUTPUT_INTERFACE_H */

@@ -27,7 +27,7 @@
 /* Constant declarations.                                                    */
 /*****************************************************************************/
 
-/* Jacobian type constants.*                                                 */
+/* Jacobian type constants.                                                  */
 #define PRESOLVE_LINEAR    0    /* Type of element is linear                 */
 #define PRESOLVE_NONLINEAR 1    /* Type of element is nonlinear              */
 
@@ -42,6 +42,10 @@
 #define PRESOLVE_NEG  -1        /* Value is < bound                          */
 #define PRESOLVE_PINF  2        /* Bound is plus infinity                    */
 #define PRESOLVE_MINF -2        /* Bound is minus infinity                   */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*****************************************************************************/
 /* Presolve_Interface declaration.                                           */
@@ -96,22 +100,25 @@ typedef struct
 
   Void (CB_FPTR fun_typ)(Void *pd, Int n, Int *typ);
   Void (CB_FPTR fun_domain)(Void *pd, Int func,
-			    Double *xlb, Double *xub,
-			    Int *xlb_type, Int *xub_type);
+                            Double *xlb, Double *xub,
+                            Int *xlb_type, Int *xub_type);
   Void (CB_FPTR fun_interval)(Void *pd, Int func,
-			      const Double *x_lb, const Double *x_ub,
-			      Double *f_lb, Double *f_ub,
-			      Int *flb_type, Int *fub_type);
+                              const Double *x_lb, const Double *x_ub,
+                              Double *f_lb, Double *f_ub,
+                              Int *flb_type, Int *fub_type);
 
   Void (CB_FPTR jac_domain)(Void *pd, Int func,
-			    Double *xlb, Double *xub,
-			    Int *xlb_type, Int *xub_type);
+                            Double *xlb, Double *xub,
+                            Int *xlb_type, Int *xub_type);
   Void (CB_FPTR jac_interval)(Void *pd, Int func,
-			      const Double *x_lb, Const double *x_ub,
-			      Double *j_lb, Double *j_ub,
-			      Int *jlb_type, Int *jub_type);
+                              const Double *x_lb, Const double *x_ub,
+                              Double *j_lb, Double *j_ub,
+                              Int *jlb_type, Int *jub_type);
 #endif
 } Presolve_Interface;
 
+#ifdef __cplusplus
+}
 #endif
 
+#endif  /* #ifndef PRESOLVE_INTERFACE_H */
